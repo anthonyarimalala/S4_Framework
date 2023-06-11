@@ -18,11 +18,9 @@ import jakarta.servlet.http.HttpServletResponse;
 public class Fonctions{
 
     // SPRINT 3
-    public static void traitementMappingUrls(HashMap<String,Mapping> mappingUrls, String packageName) throws Exception{
+    public static void mameno_HashMap(HashMap<String,Mapping> mappingUrls, String packageName) throws Exception{
         try {
         mappingUrls = new HashMap<String, Mapping>();
-        // String packageName = "etu2033.model";
-        // String packageName = getServletContext().getInitParameter("packageName");
         URL root = Thread.currentThread().getContextClassLoader().getResource(packageName.replace(".", "//")); 
             for (File file : new File(root.getFile().replaceAll("%20", " ")).listFiles()) {
                 if (file.getName().contains(".class")) {
@@ -35,7 +33,8 @@ public class Fonctions{
                     }
                 }
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new ServletException(e);
         }
     }

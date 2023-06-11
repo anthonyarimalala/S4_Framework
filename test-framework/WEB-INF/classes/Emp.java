@@ -1,4 +1,4 @@
-package model;
+package models;
 
 import etu2033.annotation.url;
 

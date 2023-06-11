@@ -22,9 +22,14 @@
   version="5.0"
   metadata-complete="true">
 
+    <servlet>
+      <servlet-name>FrontServlet</servlet-name>
+      <servlet-class>etu2033.framework.servlet.FrontServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
-        <servlet-name>front-servlet</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <servlet-name>FrontServlet</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
     <context-param>
