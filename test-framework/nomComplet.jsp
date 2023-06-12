@@ -7,9 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>Index</h2>
-    <form action="servlet/emp-nomComplet">
-        <input type="submit" value="Nom complet">
-    </form>
+    <h1>Nom complet</h1>
 </body>
 </html>
