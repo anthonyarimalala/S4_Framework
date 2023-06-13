@@ -17,4 +17,13 @@ public class Emp{
         String nomComplet = this.nom +" "+ this.prenom;
         return modelView;
     }
+
+    @url(value="emp-monTexte")
+    public ModelView getMonTexte(){
+        ModelView modelView = new ModelView();
+        modelView.addItem("monTexte",this);
+        modelView.setUrl("monTexte.jsp");
+
+        return modelView;
+    }
 }

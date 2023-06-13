@@ -49,15 +49,30 @@ public class Fonctions{
                 Method methode = object.getClass().getDeclaredMethod(method);
                 ModelView retour = (ModelView) methode.invoke(object);
 
-            // sprint 6
-                // sprint 6: maka object amle modelView
+
+            // SPRINT-6 et SPRINT-7
                 HashMap<String, Object> data = retour.getData();
+                Enumeration<String> paramNames = request.getParameterNames();
+
+            // sprint 7: recuperation deonnée formulaire
+                while (paramNames.hasMoreElements()) {
+                    String paramName = paramNames.nextElement();
+                    Object paramValue = request.getParameter(paramName);
+
+                    if (data.containsKey(paramName)) {
+                        data.put(paramName, paramValue);
+                        retour.addItem(paramName, paramValue);
+                    }
+                }
+            
+            // sprint 6: envoyer des donnees recuperables dans jsp
                 for (Map.Entry<String, Object> entry : data.entrySet()) {
                     String key = entry.getKey();
                     Object valeurObjet = entry.getValue();
 
                     request.setAttribute(key, convertToObjectPrimitive(valeurObjet));
                 }
+
 
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("/"+retour.getUrl());
                 requestDispatcher.forward(request, response);
