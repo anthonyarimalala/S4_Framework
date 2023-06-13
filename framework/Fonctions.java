@@ -20,29 +20,6 @@ import java.io.*;
 
 public class Fonctions{
 
-    // SPRINT 3
-    public static HashMap<String,Mapping> mameno_HashMap(HashMap<String,Mapping> mappingUrls, String packageName) throws Exception{
-        try {
-        mappingUrls = new HashMap<String, Mapping>();
-        URL root = Thread.currentThread().getContextClassLoader().getResource(packageName.replace(".", "//")); 
-            for (File file : new File(root.getFile().replaceAll("%20", " ")).listFiles()) {
-                if (file.getName().contains(".class")) {
-                    String className = file.getName().replaceAll(".class$", "");
-                    Class<?> cls = Class.forName(packageName + "." + className);
-                    for (Method method : cls.getDeclaredMethods()) {
-                        if (method.isAnnotationPresent(url.class)) {
-                            mappingUrls.put(method.getAnnotation(url.class).value(), new Mapping(cls.getName(), method.getName()));
-                        }
-                    }
-                }
-            }
-        }
-        catch (Exception e) {
-            throw new ServletException(e);
-        }
-        return mappingUrls;
-    }
-
     // SPRINT 5
     // recuperation valeur de retour et dispatcher
     public static void recup_et_dispatch(HashMap<String, Mapping> mappingUrls,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -71,6 +48,17 @@ public class Fonctions{
                 String method = (String) mapping.getMethod();
                 Method methode = object.getClass().getDeclaredMethod(method);
                 ModelView retour = (ModelView) methode.invoke(object);
+
+            // sprint 6
+                // sprint 6: maka object amle modelView
+                HashMap<String, Object> data = retour.getData();
+                for (Map.Entry<String, Object> entry : data.entrySet()) {
+                    String key = entry.getKey();
+                    Object valeurObjet = entry.getValue();
+
+                    request.setAttribute(key, convertToObjectPrimitive(valeurObjet));
+                }
+
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("/"+retour.getUrl());
                 requestDispatcher.forward(request, response);
 
@@ -83,4 +71,48 @@ public class Fonctions{
         }
 
     }
+    public static Object convertToObjectPrimitive(Object obj) {
+        if (obj instanceof String) {
+            return (String) obj;
+        } else if (obj instanceof Integer) {
+            return ((Integer) obj).intValue();
+        } else if (obj instanceof Double) {
+            return ((Double) obj).doubleValue();
+        } else if (obj instanceof Boolean) {
+            return ((Boolean) obj).booleanValue();
+        } else if (obj instanceof Date) {
+            Date sqlDate = (Date) obj;
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(sqlDate);
+            return calendar.getTime();
+        }
+        
+        // Si le type de l'objet n'est pas pris en charge, vous pouvez retourner null ou une valeur par défaut.
+        return null;
+    }
+
+    // SPRINT 3
+    public static HashMap<String,Mapping> mameno_HashMap(HashMap<String,Mapping> mappingUrls, String packageName) throws Exception{
+        try {
+        mappingUrls = new HashMap<String, Mapping>();
+        URL root = Thread.currentThread().getContextClassLoader().getResource(packageName.replace(".", "//")); 
+            for (File file : new File(root.getFile().replaceAll("%20", " ")).listFiles()) {
+                if (file.getName().contains(".class")) {
+                    String className = file.getName().replaceAll(".class$", "");
+                    Class<?> cls = Class.forName(packageName + "." + className);
+                    for (Method method : cls.getDeclaredMethods()) {
+                        if (method.isAnnotationPresent(url.class)) {
+                            mappingUrls.put(method.getAnnotation(url.class).value(), new Mapping(cls.getName(), method.getName()));
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception e) {
+            throw new ServletException(e);
+        }
+        return mappingUrls;
+    }
+
+    
 }

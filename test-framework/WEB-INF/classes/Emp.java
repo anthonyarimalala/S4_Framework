@@ -11,6 +11,9 @@ public class Emp{
     public ModelView getNomComplet(){
         ModelView modelView = new ModelView();
         modelView.setUrl("nomComplet.jsp");
+        modelView.addItem("nom","Randriarimalala");
+        modelView.addItem("prenom","Anthony");
+
         String nomComplet = this.nom +" "+ this.prenom;
         return modelView;
     }
