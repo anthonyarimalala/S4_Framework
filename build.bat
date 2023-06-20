@@ -1,3 +1,7 @@
+cd test-framework/WEB-INF/classes
+    javac -cp ../lib/fw.jar -d . Emp.java
+cd ../../..
+
 cd framework/
     javac -d . *.java
     jar -cf fw.jar .

@@ -6,6 +6,8 @@ public class ModelView{
     String url;
     HashMap<String,Object> data = new HashMap<>();
 
+
+// FUNCTIONS
     public void addItem(String key,Object value){
         this.data.put(key, value);
     }

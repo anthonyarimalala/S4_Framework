@@ -26,4 +26,14 @@ public class Emp{
 
         return modelView;
     }
+
+
+    @url(value="emp-monParametre")
+    public ModelView getMonParametre(String parametre){
+        ModelView modelView = new ModelView();
+        modelView.addItem("monParametre",this);
+        modelView.setUrl("parametre.jsp");
+
+        return modelView;
+    }
 }
